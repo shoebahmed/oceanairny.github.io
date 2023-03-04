@@ -175,7 +175,7 @@ This files [Table of contents] are outlined below
 		bottom: -60px;
 		left: 0px;
 		border-style: solid;
-		border-color: #ff8a00;
+		border-color: #0091e3;
 		border-width: 60px 0px 60px 60px;
 		width: 300px;
 		z-index: 0;
@@ -2760,7 +2760,7 @@ ol.comment-list {
 			position: absolute;
 			z-index: -1;
 			background: linear-gradient(to bottom,  rgba(0,0,0,0) 33%,rgba(255,138,0,0.65) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-			filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', endColorstr='#a6ff8a00',GradientType=0 ); /* IE6-9 */
+			filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', endColorstr='#a60091e3',GradientType=0 ); /* IE6-9 */
 		}
 		&:before{
 			content: '';

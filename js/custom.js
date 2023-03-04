@@ -657,15 +657,15 @@ function slider_home3(){
     Window on scroll ALL FUNCTION START
 ---------------------------------------------------------------------------------------------*/
 
-    function color_fill_header() {
+    /*function color_fill_header() {
         var scroll = $(window).scrollTop();
         if(scroll >= 100) {
             $(".is-fixed").addClass("color-fill");
         } else {
             $(".is-fixed").removeClass("color-fill");
         }
-    }
-	
+    }*/
+
 
 /*--------------------------------------------------------------------------------------------
 	document.ready ALL FUNCTION START
