@@ -168,35 +168,35 @@
                             <div class="row">
                                 <div class="col-lg-8 col-md-12">
                                     <div class="contact-form-outer">
-                                        <form  class="cons-contact-form" method="post" action="form-handler2.php">
+                                        <form id="submitForm" class="cons-contact-form" method="post" action="https://forms.hsforms.com/submissions/v3/public/submit/formsnext/multipart/23895851/707d47b2-7451-44bc-bb5e-ca9bf08013ce">
                                             <div class="row">
-                                                <div class="col-lg-6 col-md-6">
+                                                <!--<div class="col-lg-6 col-md-6">
                                                     <div class="form-group mb-3">
                                                         <input name="username" type="text" required class="form-control" placeholder="Name">
                                                     </div>
-                                                </div>
+                                                </div>-->
                                                 <div class="col-lg-6 col-md-12">
                                                     <div class="form-group mb-3">
-                                                    <input name="email" type="text" class="form-control" required placeholder="Email">
+                                                    <input id="email" name="email" type="text" class="form-control" required placeholder="Email">
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6 col-md-12">
                                                     <div class="form-group mb-3">
-                                                        <input name="phone" type="text" class="form-control" required placeholder="Phone">
+                                                        <input id="mobile" name="mobilephone" type="text" class="form-control" required placeholder="Phone">
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6 col-md-12">
                                                     <div class="form-group mb-3">
-                                                        <input name="subject" type="text" class="form-control" required placeholder="Subject">
+                                                        <input id="subject" name="subject" type="text" class="form-control" required placeholder="Subject">
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-12">
                                                     <div class="form-group mb-3">
-                                                    <textarea name="message" class="form-control" rows="3" placeholder="Message"></textarea>
+                                                    <input id="message" name="message" class="form-control" rows="3" placeholder="Message">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-12">
-                                                    <button type="submit" class="btn-half site-button"><span>Submit Now</span><em></em></button>
+                                                    <button id="submitButton" type="submit" class="btn-half site-button"><span>Submit Now</span><em></em></button>
                                                 </div>
                                             </div>
                                         </form>
@@ -360,7 +360,8 @@
 
 
 
-<!-- JAVASCRIPT  FILES ========================================= --> 
+<!-- JAVASCRIPT  FILES ========================================= -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script  src="js/jquery-3.6.0.min.js"></script><!-- JQUERY.MIN JS -->
 <script  src="js/popper.min.js"></script><!-- POPPER.MIN JS -->
 <script  src="js/bootstrap.min.js"></script><!-- BOOTSTRAP.MIN JS -->
@@ -379,11 +380,63 @@
 <script  src="js/swiper-bundle.min.js"></script><!-- Swiper js -->
 <script  src="js/jquery.bgscroll.js"></script><!-- BACKGROUND SCROLL -->
 <script  src="js/custom.js"></script><!-- CUSTOM FUCTIONS  -->
+<!-- JSON File  -->
+<script type="text/javascript" language="javascript" src="json/infoData.json"></script>
 
+<script>
+     $(document).ready(function() {
 
+        var jsonData = {};
+        var ipAddress = '10.0.0.1';
 
+        $.getJSON("json/infoData.json", function(json) {
+            jsonData = json;
+            console.log(jsonData);
+        });
 
+        function uuidv4() {
+            return ([1e7] + 1e3 + 4e3 + 8e3 + 1e11).replace(/[018]/g, c =>
+                (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
+            );
+        }
 
+        $.getJSON('https://ipinfo.io/json', function(data) {
+          console.log(JSON.stringify(data, null, 2));
+        });
+
+        $("#submitButton").on('click', function() {
+
+            var uuid = uuidv4();
+            var myEpoch = (new Date).valueOf();
+            var email = $('#email').val();
+            var mobile = $('#mobile').val();
+            var subject = $('#subject').val();
+            var message = $('#message').val();
+
+            jsonData.submittedAt = myEpoch;
+            jsonData.fields[0].value = email;
+            jsonData.fields[1].value = mobile;
+            jsonData.fields[2].value = subject;
+            jsonData.fields[3].value = message;
+
+            jsonData.context.hutk = uuid;
+            jsonData.context.ipAddress = ipAddress;
+
+            // send ajax
+            $.ajax({
+               url: 'https://api.hsforms.com/submissions/v3/integration/submit/23895851/707d47b2-7451-44bc-bb5e-ca9bf08013ce',
+               type: 'POST',
+               data: JSON.stringify(jsonData),
+               contentType: 'application/json; charset=utf-8',
+               dataType: 'json',
+               async: false,
+               success: function(msg) {
+                   window.location.reload();
+               }
+            });
+        });
+    });
+</script>
 </body>
 
 </html>
